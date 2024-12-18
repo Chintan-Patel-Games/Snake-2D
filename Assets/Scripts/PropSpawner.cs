@@ -7,15 +7,15 @@ public class PropSpawner : MonoBehaviour
     [System.Serializable]
     public class Prop
     {
-        public string name;                // Name of the prop (e.g., "Food", "Obstacle")
+        public string name;               // Name of the prop
         public GameObject prefab;         // Prefab for the prop
         public float spawnInterval = 5f;  // Time interval for spawning the prop
         [HideInInspector] public GameObject currentInstance; // Tracks the spawned instance
     }
 
-    public List<Prop> props = new List<Prop>();  // List of all props to spawn
-    public Vector2Int spawnAreaMin = new Vector2Int(-10, -10);  // Bottom-left corner of the spawn area
-    public Vector2Int spawnAreaMax = new Vector2Int(10, 10);    // Top-right corner of the spawn area
+    [SerializeField] private List<Prop> props = new List<Prop>();  // List of all props to spawn
+    [SerializeField] private Vector2Int spawnAreaMin = new Vector2Int(-10, -10);  // Bottom-left corner of the spawn area
+    [SerializeField] private Vector2Int spawnAreaMax = new Vector2Int(10, 10);    // Top-right corner of the spawn area
 
     private void Start()
     {
@@ -55,7 +55,10 @@ public class PropSpawner : MonoBehaviour
         // Instantiate the prop prefab and track it
         prop.currentInstance = Instantiate(prop.prefab, spawnPosition, Quaternion.identity);
 
-        // Optional: Set the spawned prop as a child of this spawner for organization
+        // Set the spawned prop as a child of this spawner for organization
         prop.currentInstance.transform.SetParent(transform);
+
+        // Destroy the prop after 10 seconds if it hasn't been interacted with
+        Destroy(prop.currentInstance, 10f);
     }
 }

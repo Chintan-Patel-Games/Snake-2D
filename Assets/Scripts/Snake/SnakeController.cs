@@ -1,15 +1,19 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static SnakePartSprites;
 
-public class SnakeMovement : MonoBehaviour
+public class SnakeController : MonoBehaviour
 {
-    [SerializeField] private GameObject snakeHeadPrefab;
-    [SerializeField] private GameObject snakeBodyPrefab;
-    [SerializeField] private GameObject snakeTailPrefab;
+    [System.Serializable]
+    public class SnakePartSprite
+    {
+        public SnakeParts part; // Enum for the snake part
+        public Sprite sprite;   // Sprite associated with this part
+    }
+    [SerializeField] private GameObject[] snakePartPrefab;
+    [SerializeField] private List<SnakePartSprite> snakePartSprites = new List<SnakePartSprite>();
     [SerializeField] private int screenWidth = 10;
     [SerializeField] private int screenHeight = 10;
-    [SerializeField] private List<SnakePartSprite> snakePartSprites;
     [SerializeField] private float moveSpeed;
     private Dictionary<SnakeParts, Sprite> spriteMap;
     private GameObject snakeHeadInstance;
@@ -18,6 +22,8 @@ public class SnakeMovement : MonoBehaviour
     private List<Vector2> previousPositions = new List<Vector2>();
     private Vector2 direction = Vector2.up;
     private Vector2 nextDirection;
+    private bool isShieldActive = false;
+    private int score = 0;
 
     void Start()
     {
@@ -31,9 +37,9 @@ public class SnakeMovement : MonoBehaviour
             }
         }
 
-        AddSnakePart(snakeHeadPrefab, Vector2.zero);  // Head
-        AddSnakePart(snakeBodyPrefab, Vector2.down);  // Body
-        AddSnakePart(snakeTailPrefab, Vector2.down);  // Tail
+        AddSnakePart(snakePartPrefab[0], Vector2.zero);  // Head
+        AddSnakePart(snakePartPrefab[1], Vector2.down);  // Body
+        AddSnakePart(snakePartPrefab[2], Vector2.down);  // Tail
 
         // Initialize previous positions
         foreach (var part in snakeParts)
@@ -161,14 +167,38 @@ public class SnakeMovement : MonoBehaviour
     {
         if (collision.CompareTag("MassGainer"))
         {
-            AddSnakePart(snakeBodyPrefab, -direction); // Increase the snake length
-            Destroy(collision.gameObject); // Destroy the food
+            AddSnakePart(snakePartPrefab[1], -direction); // Increase the snake length
+            Destroy(collision.gameObject); // Destroy the prop
+        }
+
+        if (collision.CompareTag("MassBurner"))
+        {
+            PopSnakePart(); // Decrease the snake length
+            Destroy(collision.gameObject); // Destroy the prop
+        }
+
+        if (collision.CompareTag("SpeedBoost"))
+        {
+            BoostSpeed(); // Activate speed boost
+            Destroy(collision.gameObject); // Destroy the prop
+        }
+
+        if (collision.CompareTag("ScoreBoost"))
+        {
+            BoostScore(); // Activate score boost
+            Destroy(collision.gameObject); // Destroy the prop
+        }
+
+        if (collision.CompareTag("Shield"))
+        {
+            ActivateShield(); // Get this man a shield
+            Destroy(collision.gameObject); // Destroy the prop
         }
 
         if (collision.CompareTag("SnakeBody") || collision.CompareTag("SnakeTail"))
         {
-            Debug.Log("Game Over!");
-            Time.timeScale = 0;
+            if (!isShieldActive)
+                Time.timeScale = 0;
         }
     }
 
@@ -196,7 +226,7 @@ public class SnakeMovement : MonoBehaviour
         part.transform.localScale = new Vector3(2.5f, 2.5f, 1);
 
         // Track the snake head specifically
-        if (prefab == snakeHeadPrefab)
+        if (prefab == snakePartPrefab[0])
         {
             snakeHeadInstance = part;
 
@@ -210,5 +240,71 @@ public class SnakeMovement : MonoBehaviour
             snakeParts.Insert(1, part.transform);  // Insert after the head
             previousPositions.Insert(1, part.transform.position);  // Insert body/tail after the head
         }
+    }
+
+    private void PopSnakePart()
+    {
+        // Ensure the snake has at least the head and one body part
+        if (snakeParts.Count > 2)
+        {
+            // Get the first body part (index 1, since index 0 is the head)
+            Transform bodyPartToRemove = snakeParts[1];
+            snakeParts.RemoveAt(1); // Remove the body part from the list
+            Destroy(bodyPartToRemove.gameObject); // Destroy the body part object
+        }
+        else
+        {
+            Debug.Log("Cannot remove body part. Snake is too short!");
+        }
+    }
+
+    private void BoostSpeed()
+    {
+        // Temporarily increase the snake's speed
+        StartCoroutine(SpeedBoostCoroutine());
+    }
+
+    private IEnumerator SpeedBoostCoroutine()
+    {
+        float originalSpeed = moveSpeed;
+        moveSpeed = 0.1f; // Increase speed by 50%
+
+        yield return new WaitForSeconds(5f); // Boost lasts for 5 seconds
+
+        moveSpeed = originalSpeed; // Reset speed
+    }
+
+    private void BoostScore()
+    {
+        // Temporarily increase the snake's speed
+        StartCoroutine(ScoreBoostCoroutine());
+        // Add score logic here
+        score += 50; // Assuming you have a `score` variable
+        Debug.Log("Score boosted! New score: " + score);
+    }
+
+    private IEnumerator ScoreBoostCoroutine()
+    {
+        int originalScore = score;
+        score *= 2; // Increase score gain by 50%
+
+        yield return new WaitForSeconds(5f); // Boost lasts for 5 seconds
+
+        score = originalScore; // Reset score
+    }
+
+    private void ActivateShield()
+    {
+        // Temporarily activate a shield
+        StartCoroutine(ShieldCoroutine());
+    }
+
+    private IEnumerator ShieldCoroutine()
+    {
+        isShieldActive = true; // Assuming you have an `isShieldActive` variable
+
+        yield return new WaitForSeconds(5f); // Shield lasts for 5 seconds
+
+        isShieldActive = false; // Deactivate shield
     }
 }

@@ -47,7 +47,23 @@ MonoBehaviour:
   props:
   - name: MassGainer
     prefab: {fileID: 7893099693486070617, guid: 1764060e7a3430f4c886aa59d1fa8282, type: 3}
-    spawnInterval: 3
+    spawnInterval: 5
+    currentInstance: {fileID: 0}
+  - name: MassBurner
+    prefab: {fileID: 4833013102102244820, guid: b4bb74bed7ef7c844bac2bb5122ae086, type: 3}
+    spawnInterval: 10
+    currentInstance: {fileID: 0}
+  - name: SpeedBoost
+    prefab: {fileID: 4833013102102244820, guid: c4fc9e6f66fcc7040b72b2c0a54b086a, type: 3}
+    spawnInterval: 30
+    currentInstance: {fileID: 0}
+  - name: ScoreBoost
+    prefab: {fileID: 4833013102102244820, guid: 05f3aec0405c4ac46a838d6cac8ba474, type: 3}
+    spawnInterval: 45
+    currentInstance: {fileID: 0}
+  - name: Shield
+    prefab: {fileID: 4833013102102244820, guid: 1e4040853dd4a0b4d9b6057b2b40bf85, type: 3}
+    spawnInterval: 60
     currentInstance: {fileID: 0}
   spawnAreaMin: {x: -10, y: -10}
   spawnAreaMax: {x: 10, y: 10}

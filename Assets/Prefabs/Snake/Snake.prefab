@@ -44,9 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0924e75b1ca17d41a5ad14a9efc53f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snakeHeadPrefab: {fileID: 9188945075990829615, guid: 8a96be4f01b524b47a2f1f2c6a03f3c8, type: 3}
-  snakeBodyPrefab: {fileID: 9188945075990829615, guid: 4d25d53d0cd2bdf4f92e533cf76c7ec8, type: 3}
-  snakeTailPrefab: {fileID: 9188945075990829615, guid: 7b3f9b55740cad04b8fde017617965c5, type: 3}
+  snakePartPrefab:
+  - {fileID: 9188945075990829615, guid: 8a96be4f01b524b47a2f1f2c6a03f3c8, type: 3}
+  - {fileID: 9188945075990829615, guid: 4d25d53d0cd2bdf4f92e533cf76c7ec8, type: 3}
+  - {fileID: 9188945075990829615, guid: 7b3f9b55740cad04b8fde017617965c5, type: 3}
   screenWidth: 10
   screenHeight: 10
   snakePartSprites:

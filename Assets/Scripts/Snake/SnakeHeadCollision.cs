@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class SnakeHeadCollision : MonoBehaviour
 {
-    [System.NonSerialized] public SnakeMovement snakeMovement; // Reference to the parent SnakeMovement script
+    private SnakeController snakeController; // Reference to the parent SnakeMovement script
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        snakeMovement = FindObjectOfType<SnakeMovement>();
-        if (snakeMovement != null)
+        snakeController = FindObjectOfType<SnakeController>();
+        if (snakeController != null)
         {
-            snakeMovement.HandleCollision(collision); // Delegate collision handling to parent
+            snakeController.HandleCollision(collision); // Delegate collision handling to parent
         }
     }
 }
