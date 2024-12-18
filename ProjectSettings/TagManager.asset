@@ -4,16 +4,18 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Food
   - SnakeHead
+  - SnakeBody
+  - SnakeTail
+  - MassGainer
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Snake
   - Water
   - UI
-  - 
+  - Props
   - 
   - 
   - 
