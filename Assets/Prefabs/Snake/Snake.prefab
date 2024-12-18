@@ -27,7 +27,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -47,6 +47,7 @@ MonoBehaviour:
   snakeHeadPrefab: {fileID: 9188945075990829615, guid: 8a96be4f01b524b47a2f1f2c6a03f3c8, type: 3}
   snakeBodyPrefab: {fileID: 9188945075990829615, guid: 4d25d53d0cd2bdf4f92e533cf76c7ec8, type: 3}
   snakeTailPrefab: {fileID: 9188945075990829615, guid: 7b3f9b55740cad04b8fde017617965c5, type: 3}
+  foodSpawner: {fileID: 0}
   moveSpeed: 0.3
   screenWidth: 10
   screenHeight: 10

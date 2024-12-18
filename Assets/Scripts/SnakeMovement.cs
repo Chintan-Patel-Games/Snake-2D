@@ -1,14 +1,16 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SnakeMovement : MonoBehaviour
 {
-    private List<Transform> snakeParts = new List<Transform>();
+    public List<Transform> snakeParts = new List<Transform>();
     private List<Vector2> previousPositions = new List<Vector2>();
 
     public GameObject snakeHeadPrefab;
     public GameObject snakeBodyPrefab;
     public GameObject snakeTailPrefab;
+    public FoodSpawner foodSpawner;
 
     public float moveSpeed = 0.2f;
     private float moveTimer = 0f;
@@ -160,10 +162,34 @@ public class SnakeMovement : MonoBehaviour
         return bodyHorizontal; // Default fallback
     }
 
-    private void AddSnakePart(GameObject prefab, Vector2 positionOffset)
+    private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.CompareTag("Food"))  // Make sure the collider belongs to food
+        {
+            Debug.Log("Food Detected");
+            // Grow the snake
+            AddSnakePart(snakeBodyPrefab, Vector2.zero);
+
+            // Destroy the food
+            Destroy(other.gameObject);
+
+            // Spawn a new food after the cooldown period
+            foodSpawner.SpawnFood();
+        }
+    }
+
+    public void AddSnakePart(GameObject prefab, Vector2 positionOffset)
+    {
+        // Instantiate the snake part and set it as a child of the Snake GameObject
         GameObject part = Instantiate(prefab, (Vector2)transform.position + positionOffset, Quaternion.identity);
+
+        // Set the parent to this Snake GameObject to keep the hierarchy organized
+        part.transform.SetParent(transform);
+
+        // Scale the part
         part.transform.localScale = new Vector3(2.5f, 2.5f, 1);
+
+        // Add the part to the list of snake parts
         snakeParts.Add(part.transform);
         previousPositions.Add(part.transform.position);
     }
