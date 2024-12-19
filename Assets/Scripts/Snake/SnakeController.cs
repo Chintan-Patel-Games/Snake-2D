@@ -16,14 +16,12 @@ public class SnakeController : MonoBehaviour
     [SerializeField] private int screenHeight = 10;
     [SerializeField] private float moveSpeed;
     private Dictionary<SnakeParts, Sprite> spriteMap;
-    private GameObject snakeHeadInstance;
     private float moveTimer = 0f;
     private List<Transform> snakeParts = new List<Transform>();
     private List<Vector2> previousPositions = new List<Vector2>();
     private Vector2 direction = Vector2.up;
     private Vector2 nextDirection;
     private bool isShieldActive = false;
-    private int score = 0;
 
     void Start()
     {
@@ -167,30 +165,40 @@ public class SnakeController : MonoBehaviour
     {
         if (collision.CompareTag("MassGainer"))
         {
+            // Add score for eating food
+            ScoreController.Instance.AddScore(10);
             AddSnakePart(snakePartPrefab[1], -direction); // Increase the snake length
             Destroy(collision.gameObject); // Destroy the prop
         }
 
         if (collision.CompareTag("MassBurner"))
         {
+            // Add score for eating food
+            ScoreController.Instance.AddScore(-10);
             PopSnakePart(); // Decrease the snake length
             Destroy(collision.gameObject); // Destroy the prop
         }
 
         if (collision.CompareTag("SpeedBoost"))
         {
+            // Add score for eating food
+            ScoreController.Instance.AddScore(50);
             BoostSpeed(); // Activate speed boost
             Destroy(collision.gameObject); // Destroy the prop
         }
 
         if (collision.CompareTag("ScoreBoost"))
         {
+            // Add score for eating food
+            ScoreController.Instance.AddScore(50);
             BoostScore(); // Activate score boost
             Destroy(collision.gameObject); // Destroy the prop
         }
 
         if (collision.CompareTag("Shield"))
         {
+            // Add score for eating food
+            ScoreController.Instance.AddScore(50);
             ActivateShield(); // Get this man a shield
             Destroy(collision.gameObject); // Destroy the prop
         }
@@ -198,7 +206,7 @@ public class SnakeController : MonoBehaviour
         if (collision.CompareTag("SnakeBody") || collision.CompareTag("SnakeTail"))
         {
             if (!isShieldActive)
-                Time.timeScale = 0;
+                UIController.Instance.ShowGameOver();
         }
     }
 
@@ -228,8 +236,6 @@ public class SnakeController : MonoBehaviour
         // Track the snake head specifically
         if (prefab == snakePartPrefab[0])
         {
-            snakeHeadInstance = part;
-
             // Add head as the first part in the list
             snakeParts.Insert(0, part.transform);  // Insert at the beginning (head first)
             previousPositions.Insert(0, part.transform.position);  // Add head's position to the front
@@ -245,17 +251,14 @@ public class SnakeController : MonoBehaviour
     private void PopSnakePart()
     {
         // Ensure the snake has at least the head and one body part
-        if (snakeParts.Count > 2)
+        if (snakeParts.Count > 3)
         {
             // Get the first body part (index 1, since index 0 is the head)
             Transform bodyPartToRemove = snakeParts[1];
             snakeParts.RemoveAt(1); // Remove the body part from the list
             Destroy(bodyPartToRemove.gameObject); // Destroy the body part object
         }
-        else
-        {
-            Debug.Log("Cannot remove body part. Snake is too short!");
-        }
+        else { UIController.Instance.ShowGameOver(); }
     }
 
     private void BoostSpeed()
@@ -268,29 +271,21 @@ public class SnakeController : MonoBehaviour
     {
         float originalSpeed = moveSpeed;
         moveSpeed = 0.1f; // Increase speed by 50%
-
         yield return new WaitForSeconds(5f); // Boost lasts for 5 seconds
-
         moveSpeed = originalSpeed; // Reset speed
     }
 
     private void BoostScore()
     {
-        // Temporarily increase the snake's speed
+        ScoreController.Instance.AddScore(50); // Immediate score boost
         StartCoroutine(ScoreBoostCoroutine());
-        // Add score logic here
-        score += 50; // Assuming you have a `score` variable
-        Debug.Log("Score boosted! New score: " + score);
     }
 
     private IEnumerator ScoreBoostCoroutine()
     {
-        int originalScore = score;
-        score *= 2; // Increase score gain by 50%
-
-        yield return new WaitForSeconds(5f); // Boost lasts for 5 seconds
-
-        score = originalScore; // Reset score
+        ScoreController.Instance.Multiplier = 2; // Temporarily double the score
+        yield return new WaitForSeconds(15f); // Boost lasts for 15 seconds
+        ScoreController.Instance.Multiplier = 1; // Reset multiplier
     }
 
     private void ActivateShield()
@@ -302,9 +297,7 @@ public class SnakeController : MonoBehaviour
     private IEnumerator ShieldCoroutine()
     {
         isShieldActive = true; // Assuming you have an `isShieldActive` variable
-
-        yield return new WaitForSeconds(5f); // Shield lasts for 5 seconds
-
+        yield return new WaitForSeconds(10f); // Shield lasts for 10 seconds
         isShieldActive = false; // Deactivate shield
     }
 }
