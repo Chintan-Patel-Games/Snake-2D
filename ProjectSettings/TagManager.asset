@@ -3,15 +3,23 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - SnakeHead
+  - SnakeBody
+  - SnakeTail
+  - MassGainer
+  - MassBurner
+  - SpeedBoost
+  - ScoreBoost
+  - Shield
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Snake
   - Water
   - UI
-  - 
+  - Props
   - 
   - 
   - 

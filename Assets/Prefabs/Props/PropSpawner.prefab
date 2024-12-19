@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &178677671467203931
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9021520926466918244}
+  - component: {fileID: 6894322296532177234}
+  m_Layer: 0
+  m_Name: PropSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9021520926466918244
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178677671467203931}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6894322296532177234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178677671467203931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 002a60fb712134343a1b6b7fdc6e77f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  props:
+  - name: MassGainer
+    prefab: {fileID: 7893099693486070617, guid: 1764060e7a3430f4c886aa59d1fa8282, type: 3}
+    spawnInterval: 5
+    currentInstance: {fileID: 0}
+  - name: MassBurner
+    prefab: {fileID: 4833013102102244820, guid: b4bb74bed7ef7c844bac2bb5122ae086, type: 3}
+    spawnInterval: 10
+    currentInstance: {fileID: 0}
+  - name: SpeedBoost
+    prefab: {fileID: 4833013102102244820, guid: c4fc9e6f66fcc7040b72b2c0a54b086a, type: 3}
+    spawnInterval: 30
+    currentInstance: {fileID: 0}
+  - name: ScoreBoost
+    prefab: {fileID: 4833013102102244820, guid: 05f3aec0405c4ac46a838d6cac8ba474, type: 3}
+    spawnInterval: 45
+    currentInstance: {fileID: 0}
+  - name: Shield
+    prefab: {fileID: 4833013102102244820, guid: 1e4040853dd4a0b4d9b6057b2b40bf85, type: 3}
+    spawnInterval: 60
+    currentInstance: {fileID: 0}
+  spawnAreaMin: {x: -10, y: -10}
+  spawnAreaMax: {x: 10, y: 10}
