@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &242711295387634767
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1354566356069416642}
+  - component: {fileID: 3881556562218821824}
+  m_Layer: 7
+  m_Name: Snake1
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1354566356069416642
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242711295387634767}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3881556562218821824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242711295387634767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0924e75b1ca17d41a5ad14a9efc53f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snakePartPrefab:
+  - {fileID: 9188945075990829615, guid: 8a96be4f01b524b47a2f1f2c6a03f3c8, type: 3}
+  - {fileID: 9188945075990829615, guid: 4d25d53d0cd2bdf4f92e533cf76c7ec8, type: 3}
+  - {fileID: 9188945075990829615, guid: 7b3f9b55740cad04b8fde017617965c5, type: 3}
+  snakePartSprites:
+  - part: 0
+    sprite: {fileID: 21300000, guid: 872ca9129f7e6954b99f8b2d21770671, type: 3}
+  - part: 1
+    sprite: {fileID: 21300000, guid: cec1d3975d307474dbb929b142ad7db4, type: 3}
+  - part: 2
+    sprite: {fileID: 21300000, guid: 649b7eebf9b0a464ab37ff4810656705, type: 3}
+  - part: 3
+    sprite: {fileID: 21300000, guid: 45cadf86eb1266c49bb279cb062b39df, type: 3}
+  - part: 4
+    sprite: {fileID: 21300000, guid: 4578d9d37c3202941bd821869b06c18d, type: 3}
+  - part: 5
+    sprite: {fileID: 21300000, guid: e5ecb2aa45a75294183b424a50bdf5c1, type: 3}
+  - part: 6
+    sprite: {fileID: 21300000, guid: fcb200c0313d86b4f9ee3f67e2e65941, type: 3}
+  - part: 7
+    sprite: {fileID: 21300000, guid: 36a08fb0cfd843e4ab30746a75a51a21, type: 3}
+  - part: 8
+    sprite: {fileID: 21300000, guid: 95fe42b0e08749f4cba32863bd2a4bb7, type: 3}
+  - part: 9
+    sprite: {fileID: 21300000, guid: c70a7abbc4919df498ab9d6b81a64494, type: 3}
+  - part: 10
+    sprite: {fileID: 21300000, guid: 56d01ef124a778e49907f5338f7b9b2b, type: 3}
+  - part: 11
+    sprite: {fileID: 21300000, guid: f4dfd4e6488c96246bfde2f9083445f7, type: 3}
+  - part: 12
+    sprite: {fileID: 21300000, guid: d53be3e8b1ea4a14ca70dd1d6a3324ad, type: 3}
+  - part: 13
+    sprite: {fileID: 21300000, guid: fb5a3414a8aaccf4c9fc6c243398f74a, type: 3}
+  screenWidth: 10
+  screenHeight: 10
+  moveSpeed: 0.3
