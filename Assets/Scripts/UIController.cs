@@ -41,7 +41,6 @@ public class UIController : MonoBehaviour
 
     private void OnEnable()
     {
-        // Subscribe to the ScoreController events
         ScoreController.OnSinglePlayerScoreUpdated += UpdateSinglePlayerScoreUI;
         ScoreController.OnSinglePlayerHighScoreUpdated += UpdateSinglePlayerHighScoreUI;
         ScoreController.OnMultiplayerScoreUpdated += UpdateMultiplayerScoreUI;
@@ -50,8 +49,16 @@ public class UIController : MonoBehaviour
 
     private void Start()
     {
-        // Set SinglePlayer UI active by default
-        ShowSinglePlayerUI();
+        isMultiplayer = GameModeManager.Instance.IsMultiplayer;
+
+        if (isMultiplayer)
+        {
+            ShowMultiplayerUI();
+        }
+        else
+        {
+            ShowSinglePlayerUI();
+        }
 
         // Ensure Game Over and Pause canvases are hidden at start
         HideGameOverUI();
@@ -86,30 +93,29 @@ public class UIController : MonoBehaviour
 
     private void OnDisable()
     {
-        // Unsubscribe from the ScoreController events
         ScoreController.OnSinglePlayerScoreUpdated -= UpdateSinglePlayerScoreUI;
         ScoreController.OnSinglePlayerHighScoreUpdated -= UpdateSinglePlayerHighScoreUI;
         ScoreController.OnMultiplayerScoreUpdated -= UpdateMultiplayerScoreUI;
         ScoreController.OnMultiplayerHighScoreUpdated -= UpdateMultiplayerHighScoreUI;
     }
 
-    private void UpdateSinglePlayerScoreUI(int score)
+    public void UpdateSinglePlayerScoreUI(int score)
     {
         singlePlayerScoreText.text = $"Score\n{score}";
     }
 
-    private void UpdateSinglePlayerHighScoreUI(int highScore)
+    public void UpdateSinglePlayerHighScoreUI(int highScore)
     {
         singlePlayerHighScoreText.text = $"Highscore\n{highScore}";
     }
 
-    private void UpdateMultiplayerScoreUI(int player1Score, int player2Score)
+    public void UpdateMultiplayerScoreUI(int player1Score, int player2Score)
     {
         player1ScoreText.text = $"P1 Score\n{player1Score}";
         player2ScoreText.text = $"P2 Score\n{player2Score}";
     }
 
-    private void UpdateMultiplayerHighScoreUI(int player1HighScore, int player2HighScore)
+    public void UpdateMultiplayerHighScoreUI(int player1HighScore, int player2HighScore)
     {
         player1HighScoreText.text = $"P1 Highscore\n{player1HighScore}";
         player2HighScoreText.text = $"P2 Highscore\n{player2HighScore}";
@@ -117,14 +123,12 @@ public class UIController : MonoBehaviour
 
     public void ShowSinglePlayerUI()
     {
-        isMultiplayer = false;
         singlePlayerCanvas.SetActive(true);
         multiplayerCanvas.SetActive(false);
     }
 
     public void ShowMultiplayerUI()
     {
-        isMultiplayer = true;
         singlePlayerCanvas.SetActive(false);
         multiplayerCanvas.SetActive(true);
     }
@@ -189,8 +193,10 @@ public class UIController : MonoBehaviour
     public void QuitToMainMenu()
     {
         // Destroy all singleton instances
+        GameModeManager.Instance.DestroySingleton();
         Destroy(ScoreController.Instance.gameObject);
         Destroy(UIController.Instance.gameObject);
+
         Time.timeScale = 1; // Resume the game
         SceneManager.LoadScene("Main Menu");
     }
