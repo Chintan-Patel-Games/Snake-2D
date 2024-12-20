@@ -166,7 +166,7 @@ public class SnakeController : MonoBehaviour
         if (collision.CompareTag("MassGainer"))
         {
             // Add score for eating food
-            ScoreController.Instance.AddScore(10);
+            ScoreController.Instance.AddSinglePlayerScore(10);
             AddSnakePart(snakePartPrefab[1], -direction); // Increase the snake length
             Destroy(collision.gameObject); // Destroy the prop
         }
@@ -174,7 +174,7 @@ public class SnakeController : MonoBehaviour
         if (collision.CompareTag("MassBurner"))
         {
             // Add score for eating food
-            ScoreController.Instance.AddScore(-10);
+            ScoreController.Instance.AddSinglePlayerScore(-10);
             PopSnakePart(); // Decrease the snake length
             Destroy(collision.gameObject); // Destroy the prop
         }
@@ -182,7 +182,7 @@ public class SnakeController : MonoBehaviour
         if (collision.CompareTag("SpeedBoost"))
         {
             // Add score for eating food
-            ScoreController.Instance.AddScore(50);
+            ScoreController.Instance.AddSinglePlayerScore(50);
             BoostSpeed(); // Activate speed boost
             Destroy(collision.gameObject); // Destroy the prop
         }
@@ -190,15 +190,15 @@ public class SnakeController : MonoBehaviour
         if (collision.CompareTag("ScoreBoost"))
         {
             // Add score for eating food
-            ScoreController.Instance.AddScore(50);
-            BoostScore(); // Activate score boost
+            ScoreController.Instance.AddSinglePlayerScore(50);
+            BoostScore(); // Activate score boostAddSinglePlayerScore
             Destroy(collision.gameObject); // Destroy the prop
         }
 
         if (collision.CompareTag("Shield"))
         {
             // Add score for eating food
-            ScoreController.Instance.AddScore(50);
+            ScoreController.Instance.AddSinglePlayerScore(50);
             ActivateShield(); // Get this man a shield
             Destroy(collision.gameObject); // Destroy the prop
         }
@@ -206,7 +206,7 @@ public class SnakeController : MonoBehaviour
         if (collision.CompareTag("SnakeBody") || collision.CompareTag("SnakeTail"))
         {
             if (!isShieldActive)
-                UIController.Instance.ShowGameOver();
+                UIController.Instance.ShowGameOverUI();
         }
     }
 
@@ -258,7 +258,7 @@ public class SnakeController : MonoBehaviour
             snakeParts.RemoveAt(1); // Remove the body part from the list
             Destroy(bodyPartToRemove.gameObject); // Destroy the body part object
         }
-        else { UIController.Instance.ShowGameOver(); }
+        else { UIController.Instance.ShowGameOverUI(); }
     }
 
     private void BoostSpeed()
@@ -277,7 +277,7 @@ public class SnakeController : MonoBehaviour
 
     private void BoostScore()
     {
-        ScoreController.Instance.AddScore(50); // Immediate score boost
+        ScoreController.Instance.AddSinglePlayerScore(50); // Immediate score boost
         StartCoroutine(ScoreBoostCoroutine());
     }
 
