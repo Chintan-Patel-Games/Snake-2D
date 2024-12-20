@@ -55,7 +55,7 @@ public class UIController : MonoBehaviour
         }
 
         // Pause/unpause the game on Esc key press
-        // if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
+        // if (Input.GetKeyDown(KeyCode.Escape))
         // {
         //     TogglePauseMenu();
         // }
@@ -70,7 +70,6 @@ public class UIController : MonoBehaviour
 
     private void UpdateScoreUI(int currentScore)
     {
-        // Update the score and high score UI
         scoreText.text = $"Score\n{currentScore}";
     }
 
@@ -105,6 +104,6 @@ public class UIController : MonoBehaviour
     public void QuitToMainMenu()
     {
         Time.timeScale = 1; // Resume the game
-        SceneManager.LoadScene("MainMenu"); // Replace with your main menu scene
+        SceneManager.LoadScene("MainMenu");
     }
 }
