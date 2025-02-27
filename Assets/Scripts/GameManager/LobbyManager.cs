@@ -18,15 +18,17 @@ public class LobbyManager : MonoBehaviour
 
     private void StartSinglePlayer()
     {
-        GameModeManager.Instance.IsMultiplayer = false; // Set to single-player
-        SceneManager.LoadScene("Scene1");
+        GameModeManager.Instance.SetGameMode(GameMode.SinglePlayer); // Set to singleplayer
+        LoadScene();
     }
 
     private void StartMultiplayer()
     {
-        GameModeManager.Instance.IsMultiplayer = true; // Set to multiplayer
-        SceneManager.LoadScene("Scene1");
+        GameModeManager.Instance.SetGameMode(GameMode.MultiPlayer); // Set to multiplayer
+        LoadScene();
     }
+
+    private void LoadScene() { SceneManager.LoadScene("Scene1"); }
 
     private void QuitGame()
     {

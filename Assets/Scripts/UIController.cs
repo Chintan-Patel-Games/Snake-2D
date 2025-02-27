@@ -49,7 +49,7 @@ public class UIController : MonoBehaviour
 
     private void Start()
     {
-        isMultiplayer = GameModeManager.Instance.IsMultiplayer;
+        isMultiplayer = GameModeManager.Instance.CurrentGameMode == GameMode.MultiPlayer;
 
         if (isMultiplayer)
         {
