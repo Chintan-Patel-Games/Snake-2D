@@ -1225,7 +1225,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &317355062
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1328,7 +1328,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &341717932
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5599,7 +5599,7 @@ Transform:
   m_GameObject: {fileID: 1296534500}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.6512032, y: -0.96737856, z: -0.025281915}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5801,7 +5801,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1357582696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7394,6 +7394,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8760404628658865984, guid: 3af24339e2529454d828b952735dc770, type: 3}
+      propertyPath: snakePartSprites.Array.data[6].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fcb200c0313d86b4f9ee3f67e2e65941, type: 3}
+    - target: {fileID: 8760404628658865984, guid: 3af24339e2529454d828b952735dc770, type: 3}
+      propertyPath: snakePartSprites.Array.data[7].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 36a08fb0cfd843e4ab30746a75a51a21, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7401,13 +7409,13 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 3af24339e2529454d828b952735dc770, type: 3}
 --- !u!114 &1855346381 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3881556562218821824, guid: 3af24339e2529454d828b952735dc770, type: 3}
+  m_CorrespondingSourceObject: {fileID: 8760404628658865984, guid: 3af24339e2529454d828b952735dc770, type: 3}
   m_PrefabInstance: {fileID: 1855346380}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0924e75b1ca17d41a5ad14a9efc53f5, type: 3}
+  m_Script: {fileID: 11500000, guid: 9822b09e8ca4949458ea587f9c403879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1861516137
@@ -9535,8 +9543,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 756afd7ffdbc3ef45bc88025fb36086a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snake1: {fileID: 1855346381}
-  snake2: {fileID: 4145246993115582166}
+  playerOneSnake: {fileID: 1855346381}
+  playerTwoSnake: {fileID: 6823301353274651967}
 --- !u!4 &2084118673
 Transform:
   m_ObjectHideFlags: 0
@@ -9546,7 +9554,7 @@ Transform:
   m_GameObject: {fileID: 2084118671}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.555295, y: -12.381814, z: -10.873242}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9759,17 +9767,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e933aab0d71a4694a834f7e1436e7672, type: 3}
---- !u!114 &4145246993115582166 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4226171540123212840, guid: 0fd22032ac662d24a9d889223652be25, type: 3}
-  m_PrefabInstance: {fileID: 6823301353274651966}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59a9499e741f2d74990d48dfaef611e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &4624037724561843950
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9839,10 +9836,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Snake2
       objectReference: {fileID: 0}
-    - target: {fileID: 1298141446467637196, guid: 0fd22032ac662d24a9d889223652be25, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6912841707428958062, guid: 0fd22032ac662d24a9d889223652be25, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -9888,6 +9881,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fd22032ac662d24a9d889223652be25, type: 3}
+--- !u!114 &6823301353274651967 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7562824881878489998, guid: 0fd22032ac662d24a9d889223652be25, type: 3}
+  m_PrefabInstance: {fileID: 6823301353274651966}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9822b09e8ca4949458ea587f9c403879, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -9898,6 +9902,6 @@ SceneRoots:
   - {fileID: 6823301353274651966}
   - {fileID: 2271065760157148547}
   - {fileID: 1296534501}
-  - {fileID: 1899559668}
   - {fileID: 1346831065}
   - {fileID: 2084118673}
+  - {fileID: 1899559668}

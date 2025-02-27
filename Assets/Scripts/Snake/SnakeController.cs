@@ -2,19 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Snake2Controller : MonoBehaviour
+public class SnakeController : MonoBehaviour
 {
     [System.Serializable]
     public class SnakePartSprite
     {
-        public SnakeParts part; // Enum for the snake part
-        public Sprite sprite;   // Sprite associated with this part
+        public SnakeParts part;  // Enum for the snake part
+        public Sprite sprite; // Sprite associated with this part
     }
+
     [SerializeField] private GameObject[] snakePartPrefab;
     [SerializeField] private List<SnakePartSprite> snakePartSprites = new List<SnakePartSprite>();
     [SerializeField] private int screenWidth = 10;
     [SerializeField] private int screenHeight = 10;
     [SerializeField] private float moveSpeed;
+    [SerializeField] private bool isPlayerOne;
+
     private Dictionary<SnakeParts, Sprite> spriteMap;
     private float moveTimer = 0f;
     private List<Transform> snakeParts = new List<Transform>();
@@ -30,10 +33,11 @@ public class Snake2Controller : MonoBehaviour
         foreach (var entry in snakePartSprites)
         {
             if (!spriteMap.ContainsKey(entry.part))
-            {
                 spriteMap.Add(entry.part, entry.sprite);
-            }
         }
+
+        snakeParts.Clear(); // Ensure no old data exists
+        previousPositions.Clear(); // Reset previous positions list
 
         // Initialize the snake parts list and sprites
         AddSnakePart(snakePartPrefab[0], startPos); // Head
@@ -49,8 +53,7 @@ public class Snake2Controller : MonoBehaviour
 
     void FixedUpdate()
     {
-        moveTimer += Time.deltaTime;
-
+        moveTimer += Time.fixedDeltaTime;
         if (moveTimer >= moveSpeed)
         {
             moveTimer = 0f;
@@ -60,10 +63,20 @@ public class Snake2Controller : MonoBehaviour
 
     private void HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.W) && direction != Vector2.down) nextDirection = Vector2.up;
-        else if (Input.GetKeyDown(KeyCode.S) && direction != Vector2.up) nextDirection = Vector2.down;
-        else if (Input.GetKeyDown(KeyCode.A) && direction != Vector2.right) nextDirection = Vector2.left;
-        else if (Input.GetKeyDown(KeyCode.D) && direction != Vector2.left) nextDirection = Vector2.right;
+        if (isPlayerOne)
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow) && direction != Vector2.down) nextDirection = Vector2.up;
+            else if (Input.GetKeyDown(KeyCode.DownArrow) && direction != Vector2.up) nextDirection = Vector2.down;
+            else if (Input.GetKeyDown(KeyCode.LeftArrow) && direction != Vector2.right) nextDirection = Vector2.left;
+            else if (Input.GetKeyDown(KeyCode.RightArrow) && direction != Vector2.left) nextDirection = Vector2.right;
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.W) && direction != Vector2.down) nextDirection = Vector2.up;
+            else if (Input.GetKeyDown(KeyCode.S) && direction != Vector2.up) nextDirection = Vector2.down;
+            else if (Input.GetKeyDown(KeyCode.A) && direction != Vector2.right) nextDirection = Vector2.left;
+            else if (Input.GetKeyDown(KeyCode.D) && direction != Vector2.left) nextDirection = Vector2.right;
+        }
     }
 
     private void MoveSnake()
@@ -78,6 +91,17 @@ public class Snake2Controller : MonoBehaviour
 
         snakeParts[0].position += (Vector3)direction; // Move the head
 
+        WrapScreen();
+
+        // Move the body parts to their previous part's position
+        for (int i = 1; i < snakeParts.Count; i++)
+            snakeParts[i].position = previousPositions[i - 1];
+
+        UpdateSprites(); // Update all sprites
+    }
+
+    private void WrapScreen()
+    {
         // Screen wrapping (check if the snake crosses the boundaries)
         Vector2 headPosition = snakeParts[0].position;
         Vector2 wrappedPosition = headPosition;
@@ -88,14 +112,6 @@ public class Snake2Controller : MonoBehaviour
         if (headPosition.y < -screenHeight) wrappedPosition.y = screenHeight; // Wrap to top
 
         snakeParts[0].position = wrappedPosition; // Apply the wrapped position to the head
-
-        // Move the body parts to their previous part's position
-        for (int i = 1; i < snakeParts.Count; i++)
-        {
-            snakeParts[i].position = previousPositions[i - 1];
-        }
-
-        UpdateSprites(); // Update all sprites
     }
 
     private void UpdateSprites()
@@ -164,50 +180,66 @@ public class Snake2Controller : MonoBehaviour
 
     public void HandleCollision(Collider2D collision)
     {
+        bool isMultiplayer = GameModeManager.Instance.CurrentGameMode == GameMode.MultiPlayer;
+
         if (collision.CompareTag("MassGainer"))
         {
             // Add score for eating food
-            ScoreController.Instance.AddPlayer2Score(10);
-            AddSnakePart(snakePartPrefab[1], -direction); // Increase the snake length
-            Destroy(collision.gameObject); // Destroy the prop
-        }
+            if (isMultiplayer)
+                ScoreController.Instance.AddPlayer1Score(10);
+            else
+                ScoreController.Instance.AddSinglePlayerScore(10);
 
-        if (collision.CompareTag("MassBurner"))
+            AddSnakePart(snakePartPrefab[1], -direction);
+            Destroy(collision.gameObject);
+        }
+        else if (collision.CompareTag("MassBurner"))
         {
             // Add score for eating food
-            ScoreController.Instance.AddPlayer2Score(-10);
-            PopSnakePart(); // Decrease the snake length
-            Destroy(collision.gameObject); // Destroy the prop
-        }
+            if (isMultiplayer)
+                ScoreController.Instance.AddPlayer1Score(50);
+            else
+                ScoreController.Instance.AddSinglePlayerScore(50);
 
-        if (collision.CompareTag("SpeedBoost"))
+            PopSnakePart();
+            Destroy(collision.gameObject);
+        }
+        else if (collision.CompareTag("SpeedBoost"))
         {
             // Add score for eating food
-            ScoreController.Instance.AddPlayer2Score(50);
-            BoostSpeed(); // Activate speed boost
-            Destroy(collision.gameObject); // Destroy the prop
-        }
+            if (isMultiplayer)
+                ScoreController.Instance.AddPlayer1Score(50);
+            else
+                ScoreController.Instance.AddSinglePlayerScore(50);
 
-        if (collision.CompareTag("ScoreBoost"))
+            BoostSpeed();
+            Destroy(collision.gameObject);
+        }
+        else if (collision.CompareTag("ScoreBoost"))
         {
             // Add score for eating food
-            ScoreController.Instance.AddPlayer2Score(50);
-            BoostScore(); // Activate score boost
-            Destroy(collision.gameObject); // Destroy the prop
-        }
+            if (isMultiplayer)
+                ScoreController.Instance.AddPlayer1Score(50);
+            else
+                ScoreController.Instance.AddSinglePlayerScore(50);
 
-        if (collision.CompareTag("Shield"))
+            BoostScore();
+            Destroy(collision.gameObject);
+        }
+        else if (collision.CompareTag("Shield"))
         {
             // Add score for eating food
-            ScoreController.Instance.AddPlayer2Score(50);
-            ActivateShield(); // Get this man a shield
-            Destroy(collision.gameObject); // Destroy the prop
-        }
+            if (isMultiplayer)
+                ScoreController.Instance.AddPlayer1Score(50);
+            else
+                ScoreController.Instance.AddSinglePlayerScore(50);
 
-        if (collision.CompareTag("SnakeBody") || collision.CompareTag("SnakeTail"))
+            ActivateShield();
+            Destroy(collision.gameObject);
+        }
+        else if ((collision.CompareTag("SnakeBody") || collision.CompareTag("SnakeTail")) && !isShieldActive)
         {
-            if (!isShieldActive)
-                UIController.Instance.ShowGameOverUI();
+            UIController.Instance.ShowGameOverUI();
         }
     }
 
@@ -249,7 +281,7 @@ public class Snake2Controller : MonoBehaviour
         }
     }
 
-    private void PopSnakePart()
+    public void PopSnakePart()
     {
         // Ensure the snake has at least the head and one body part
         if (snakeParts.Count > 3)
@@ -278,7 +310,7 @@ public class Snake2Controller : MonoBehaviour
 
     private void BoostScore()
     {
-        // Temporarily increase the score gained
+        ScoreController.Instance.AddSinglePlayerScore(50); // Immediate score boost
         StartCoroutine(ScoreBoostCoroutine());
     }
 

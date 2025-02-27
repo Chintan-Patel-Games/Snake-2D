@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -8713096896169447043}
   - component: {fileID: -5025825636976968095}
   - component: {fileID: 8691845250371059260}
-  - component: {fileID: 8590642969662284882}
+  - component: {fileID: -7572576657924921421}
   m_Layer: 7
   m_Name: head-up
   m_TagString: SnakeHead
@@ -159,7 +159,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &8590642969662284882
+--- !u!114 &-7572576657924921421
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,6 +168,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 9188945075990829615}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdc0ff1b2bc79d947919704f798f1639, type: 3}
+  m_Script: {fileID: 11500000, guid: 8c710fd1b47abbd47b57ff0d53e630f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

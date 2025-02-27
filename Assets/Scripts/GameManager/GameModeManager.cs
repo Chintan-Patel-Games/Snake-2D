@@ -1,9 +1,15 @@
 using UnityEngine;
 
+public enum GameMode
+{
+    SinglePlayer,
+    MultiPlayer
+}
+
 public class GameModeManager : MonoBehaviour
 {
     public static GameModeManager Instance { get; private set; } // Singleton instance
-    public bool IsMultiplayer { get; set; }
+    public GameMode CurrentGameMode { get; private set; } = GameMode.SinglePlayer; // Default mode
 
     private void Awake()
     {
@@ -17,9 +23,9 @@ public class GameModeManager : MonoBehaviour
         DontDestroyOnLoad(gameObject); // Persist across scenes
     }
 
-    public void SetGameMode(bool multiplayer)
+    public void SetGameMode(GameMode mode)
     {
-        IsMultiplayer = multiplayer;
+        CurrentGameMode = mode;
     }
 
     // Method to destroy the singleton instance
